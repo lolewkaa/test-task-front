@@ -1,0 +1,16 @@
+.header{
+    width: 100%;
+    background-color: #bababa;
+    border-bottom: 2px solid gray;
+    padding: 0 30px;
+}
+.header_nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 40px 18px 0;
+}
+.header_nav--links{
+    display: flex;
+    column-gap: 10px;
+}
