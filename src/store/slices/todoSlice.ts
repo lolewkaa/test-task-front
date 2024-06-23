@@ -4,7 +4,6 @@ type todosState = {
   value: string
 }
 
-// Начальное значение
 const initialState: todosState = {
   value: '',
 };
@@ -12,7 +11,6 @@ const initialState: todosState = {
 const todoSlice = createSlice({
   name: "todo",
   initialState,
-  // Редьюсеры в слайсах меняют состояние и ничего не возвращают
   reducers: {
     setTodoValue: (state, action) => {
       state.value = action.payload;
