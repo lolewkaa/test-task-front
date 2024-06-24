@@ -1,17 +1,18 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import styles from "./TodoList.module.css";
 
 import TodoListItem from "../TodoListItem/TodoListItem.tsx";
 import { Button, Input } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@reduxjs/toolkit/query";
-import { setTodoDescription, setTodoTitle } from "../../../store/slices/todoSlice.ts";
+import {
+  setTodoDescription,
+  setTodoTitle,
+} from "../../../store/slices/todoSlice.ts";
 import { addTodos, deleteTodos } from "../../../store/slices/todosSlice.ts";
 import ITodo from "../../../types/types.ts";
+import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
 
 const TodoList = () => {
-  const dispatch = useDispatch();
-  const useAppSelector = useSelector.withTypes<RootState>();
+  const dispatch = useAppDispatch();
   const todoTitle = useAppSelector((state) => state.todo.title);
   const todoDescription = useAppSelector((state) => state.todo.description);
   const todoSubTasks = useAppSelector((state) => state.todo.subTasks);
@@ -27,15 +28,25 @@ const TodoList = () => {
 
   function addTodo() {
     if (todoTitle !== "" && todoDescription !== "") {
-      dispatch(addTodos([...todos, { id: todos.length, title: todoTitle, description: todoDescription, subTasks: todoSubTasks }]));
-      console.log(todos)
+      dispatch(
+        addTodos([
+          ...todos,
+          {
+            id: todos.length,
+            title: todoTitle,
+            description: todoDescription,
+            subTasks: todoSubTasks,
+          },
+        ])
+      );
+      console.log(todos);
       dispatch(setTodoTitle(""));
-      dispatch(setTodoDescription(''))
+      dispatch(setTodoDescription(""));
     }
   }
 
-  function deleteTodo(item: ReactNode) {
-    const newArr = todos.filter((elem) => {
+  function deleteTodo(item: ITodo) {
+    const newArr = todos.filter((elem: ITodo) => {
       if (elem !== item) {
         return true;
       }
@@ -47,7 +58,11 @@ const TodoList = () => {
     <div className={styles.todoList}>
       <div className={styles.todoList__container}>
         <Input value={todoTitle} onChange={handleChangeTitle} fullWidth></Input>
-        <Input value={todoDescription} onChange={handleChangeDescription} fullWidth></Input>
+        <Input
+          value={todoDescription}
+          onChange={handleChangeDescription}
+          fullWidth
+        ></Input>
         <Button onClick={addTodo} variant="contained">
           Add
         </Button>

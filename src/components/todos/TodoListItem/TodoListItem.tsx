@@ -1,13 +1,13 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, useState } from "react";
 import styles from "./TodoListItem.module.css";
-import ITodo from "../../types/types.ts";
+import ITodo from "../../../types/types.ts";
 import { Button, Input } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
 import { addTodos } from "../../../store/slices/todosSlice.ts";
+import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
 
 type TodoItemListProps = {
-  item: string;
-  onDelete: (item: ReactNode) => void;
+  item: ITodo;
+  onDelete: (item: ITodo) => void;
 };
 
 const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
@@ -17,11 +17,10 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
     description: item.description,
     subTasks: item.subTasks,
   });
-  const useAppSelector = useSelector.withTypes<RootState>();
   const [isActiveInput, setIsActiveInput] = useState(false);
   const todos = useAppSelector((state) => state.todos.value);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setIsNewTodo({
@@ -41,7 +40,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
   }
 
   function saveTodo() {
-    const index = todos.findIndex((el) => el.id === item.id);
+    const index = todos.findIndex((el: ITodo) => el.id === item.id);
     const newarr = todos.slice();
     newarr.splice(index, 1, {
       id: newTodo.id,
@@ -57,9 +56,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
     <div className={styles.item}>
       {isActiveInput && (
         <>
-          <Input 
-          value={newTodo.title}
-          onChange={handleChangeTitle} />
+          <Input value={newTodo.title} onChange={handleChangeTitle} />
           <Input
             value={newTodo.description}
             onChange={handleChangeDescription}
