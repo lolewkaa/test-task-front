@@ -8,7 +8,7 @@ const TodoList = () => {
   return (
     <div className={styles.todoList}>
       <div className={styles.todoList__container}>
-        <Input></Input>
+        <Input fullWidth></Input>
         <Button variant="contained">Add</Button>
       </div>
     </div>
