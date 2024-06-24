@@ -3,7 +3,7 @@ import styles from './TodoListItem.module.css'
 import ITodo from "../../types/types.ts";
 
 type TodoItemListProps = {
-    todo: ITodo
+    item: string
 }
 
 const TodoListItem: FC<TodoItemListProps> = ({ item }) => {

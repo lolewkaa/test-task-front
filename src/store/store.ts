@@ -5,7 +5,7 @@ import todosReducer from './slices/todosSlice';
 export const store = configureStore({
   reducer: {
     todo: todoReducer,
-    todosReducer: todosReducer,
+    todos: todosReducer,
   },
 });
 

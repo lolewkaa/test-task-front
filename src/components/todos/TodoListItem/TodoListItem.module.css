@@ -1,6 +1,5 @@
 .item {
     min-height: 35px;
-    color: white;
     width: 300px;
     border: 1px solid white;
     border-radius: 15px;
@@ -13,7 +12,6 @@
 .item__text {
     margin: 0;
     padding: 0 0 0 15px;
-    color: white;
     font-size: 15px;
     line-height: normal;
 }
