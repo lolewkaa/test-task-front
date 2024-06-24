@@ -1,6 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
-import todoReducer from './slices/todoSlice';
-import todosReducer from './slices/todosSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import todoReducer from "./slices/todoSlice";
+import todosReducer from "./slices/todosSlice";
 
 export const store = configureStore({
   reducer: {
@@ -9,5 +9,5 @@ export const store = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 export default store;

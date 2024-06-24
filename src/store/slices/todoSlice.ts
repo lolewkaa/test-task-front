@@ -1,24 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
+import ITodo from "../../types/types";
 
 type todosState = {
-  value: string
+  title: string,
+  description: string,
+  subTasks: Array<ITodo>
 }
 
 const initialState: todosState = {
-  value: '',
+  title: '',
+  description: '',
+  subTasks: [],
 };
 
 const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    setTodoValue: (state, action) => {
-      state.value = action.payload;
+    setTodoTitle: (state, action) => {
+      state.title = action.payload
+    },
+    setTodoDescription: (state, action) => {
+      state.description = action.payload
     },
 
   },
 });
 
-export const { setTodoValue } = todoSlice.actions;
+export const { setTodoTitle, setTodoDescription } = todoSlice.actions;
 
 export default todoSlice.reducer;
