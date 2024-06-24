@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@reduxjs/toolkit/query";
 import { setTodoDescription, setTodoTitle } from "../../../store/slices/todoSlice.ts";
 import { addTodos, deleteTodos } from "../../../store/slices/todosSlice.ts";
+import ITodo from "../../../types/types.ts";
 
 const TodoList = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,8 @@ const TodoList = () => {
 
   function addTodo() {
     if (todoTitle !== "" && todoDescription !== "") {
-      dispatch(addTodos([...todos, { title: todoTitle, description: todoDescription, subTasks: todoSubTasks }]));
+      dispatch(addTodos([...todos, { id: todos.length, title: todoTitle, description: todoDescription, subTasks: todoSubTasks }]));
+      console.log(todos)
       dispatch(setTodoTitle(""));
       dispatch(setTodoDescription(''))
     }
@@ -50,7 +52,7 @@ const TodoList = () => {
           Add
         </Button>
       </div>
-      {todos.map((item: string, index: number) => (
+      {todos.map((item: ITodo, index: number) => (
         <TodoListItem onDelete={deleteTodo} key={index} item={item} />
       ))}
     </div>

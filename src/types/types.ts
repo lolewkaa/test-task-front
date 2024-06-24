@@ -1,5 +1,6 @@
 export default interface ITodo {
+    id: number,
     title:string,
     description:string,
-    underTasks?: Array<ITodo>
+    subTasks?: Array<ITodo>
 }

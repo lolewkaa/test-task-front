@@ -1,11 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
+import ITodo from "../../types/types";
 
 type todosState = {
-  value: string[];
+  value: Array<ITodo>;
 };
 
 const initialState: todosState = {
-  value: [],
+  value: [
+    { 
+      id: 0,
+      title: "учиться кодить",
+      description: "очень больно",
+      subTasks: [] 
+    },
+  ],
 };
 
 const todosSlice = createSlice({
@@ -13,7 +21,7 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodos: (state, action) => {
-      state.value = action.payload;
+      state.value = action.payload
     },
     deleteTodos: (state, action) => {
       state.value = action.payload;
