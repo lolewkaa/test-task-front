@@ -57,11 +57,17 @@ const TodoList = () => {
   return (
     <div className={styles.todoList}>
       <div className={styles.todoList__container}>
-        <Input value={todoTitle} onChange={handleChangeTitle} fullWidth></Input>
+        <Input
+          value={todoTitle}
+          onChange={handleChangeTitle}
+          fullWidth
+          placeholder="Title"
+        ></Input>
         <Input
           value={todoDescription}
           onChange={handleChangeDescription}
           fullWidth
+          placeholder="Description"
         ></Input>
         <Button onClick={addTodo} variant="contained">
           Add

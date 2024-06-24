@@ -56,32 +56,46 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
     <div className={styles.item}>
       {isActiveInput && (
         <>
-          <Input value={newTodo.title} onChange={handleChangeTitle} />
-          <Input
-            value={newTodo.description}
-            onChange={handleChangeDescription}
-          />
+          <div className={styles.item__inputContainer}>
+            <Input
+              value={newTodo.title}
+              onChange={handleChangeTitle}
+              placeholder="Title"
+              fullWidth
+            />
+            <Input
+              value={newTodo.description}
+              onChange={handleChangeDescription}
+              placeholder="Description"
+              fullWidth
+            />
+          </div>
+          <div className={styles.item__buttonContainer}>
+            <Button onClick={saveTodo} variant="contained">
+              Save
+            </Button>
+            <Button onClick={() => onDelete(item)} variant="contained">
+              Delete
+            </Button>
+          </div>
         </>
       )}
       {isActiveInput === false && (
-        <div className={styles.item__textContainer}>
-          <p className={styles.item__text}>{item.title}</p>
-          <p className={styles.item__text}>{item.description}</p>
-        </div>
+        <>
+          <div className={styles.item__textContainer}>
+            <p className={styles.item__title}>{item.title}</p>
+            <p className={styles.item__description}>{item.description}</p>
+          </div>
+          <div className={styles.item__buttonContainer}>
+            <Button variant="contained" onClick={() => setIsActiveInput(true)}>
+              Change
+            </Button>
+            <Button onClick={() => onDelete(item)} variant="contained">
+              Delete
+            </Button>
+          </div>
+        </>
       )}
-      {isActiveInput && (
-        <Button onClick={saveTodo} variant="contained">
-          Save
-        </Button>
-      )}
-      {isActiveInput === false && (
-        <Button variant="contained" onClick={() => setIsActiveInput(true)}>
-          Change
-        </Button>
-      )}
-      <Button onClick={() => onDelete(item)} variant="contained">
-        Delete
-      </Button>
     </div>
   );
 };
