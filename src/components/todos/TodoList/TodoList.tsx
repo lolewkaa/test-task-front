@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import styles from "./TodoList.module.css";
 
 import TodoListItem from "../TodoListItem/TodoListItem.tsx";
@@ -6,7 +6,7 @@ import { Button, Input } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@reduxjs/toolkit/query";
 import { setTodoValue } from "../../../store/slices/todoSlice.ts";
-import { addTodos } from "../../../store/slices/todosSlice.ts";
+import { addTodos, deleteTodos } from "../../../store/slices/todosSlice.ts";
 
 const TodoList = () => {
   const dispatch = useDispatch();
@@ -17,23 +17,33 @@ const TodoList = () => {
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setTodoValue(e.target.value));
   }
+
   function addTodo() {
     if (todo !== "") {
       dispatch(addTodos([...todos, { todo }]));
       dispatch(setTodoValue(""));
     }
   }
+
+  function deleteTodo(item: ReactNode) {
+    const newArr = todos.filter((elem) => {
+      if (elem !== item) {
+        return true;
+      }
+      return false;
+    });
+    dispatch(deleteTodos(newArr));
+  }
   return (
     <div className={styles.todoList}>
       <div className={styles.todoList__container}>
         <Input value={todo} onChange={handleChange} fullWidth></Input>
-        <Button onClick={addTodo} variant="contained">Add</Button>
+        <Button onClick={addTodo} variant="contained">
+          Add
+        </Button>
       </div>
       {todos.map((item: string, index: number) => (
-        <TodoListItem
-          key={index}
-          item={item}
-        />
+        <TodoListItem onDelete={deleteTodo} key={index} item={item} />
       ))}
     </div>
   );
