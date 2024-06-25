@@ -11,13 +11,12 @@ import ITodo from "../../../types/types.ts";
 import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
 
 type propsTodoList = {
-  todos: Array<ITodo>
-}
+  todos: Array<ITodo>;
+};
 
 const TodoList: React.FC<propsTodoList> = ({ todos }) => {
   const dispatch = useAppDispatch();
-  // const todos = useAppSelector((state) => state.todos.value);
-  const todo = useAppSelector((state) => state.todo)
+  const todo = useAppSelector((state) => state.todo);
 
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setTodoTitle(e.target.value));
@@ -41,15 +40,24 @@ const TodoList: React.FC<propsTodoList> = ({ todos }) => {
           },
         ])
       );
-      console.log(todos)
+      console.log(todos);
       dispatch(setTodoTitle(""));
       dispatch(setTodoDescription(""));
     }
   }
 
   function deleteTodo(item: ITodo) {
+    const arrSubTasksObjects: Array<ITodo> = [];
+    item.subTasks?.forEach((el) => {
+      const res = todos.find(function (elem) {
+        const index = todos.indexOf(elem);
+        return el === index;
+      });
+      arrSubTasksObjects.push(res);
+    });
+
     const newArr = todos.filter((elem: ITodo) => {
-      if (elem !== item) {
+      if (!arrSubTasksObjects.includes(elem) && elem !== item) {
         return true;
       }
       return false;

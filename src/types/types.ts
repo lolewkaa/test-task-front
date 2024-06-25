@@ -1,7 +1,7 @@
 export default interface ITodo {
-    id: number,
+    id?: number,
     title:string,
     description:string,
-    subTasks?: Array<ITodo>,
+    subTasks?: Array<number>,
     isSubTask: boolean
 }
