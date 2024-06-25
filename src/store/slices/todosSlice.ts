@@ -7,11 +7,11 @@ type todosState = {
 
 const initialState: todosState = {
   value: [
-    { 
+    {
       id: 0,
-      title: "учиться кодить",
-      description: "очень больно",
-      subTasks: [] 
+      title: "Make toDo list",
+      description: "I'm crying",
+      subTasks: [],
     },
   ],
 };
@@ -21,7 +21,7 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodos: (state, action) => {
-      state.value = action.payload
+      state.value = action.payload;
     },
     deleteTodos: (state, action) => {
       state.value = action.payload;

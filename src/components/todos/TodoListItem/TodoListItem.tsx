@@ -21,6 +21,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
   const todos = useAppSelector((state) => state.todos.value);
 
   const dispatch = useAppDispatch();
+  console.log(item)
 
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setIsNewTodo({
@@ -71,10 +72,18 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
             />
           </div>
           <div className={styles.item__buttonContainer}>
-            <Button onClick={saveTodo} variant="contained">
+            <Button
+              style={{ width: "90px" }}
+              onClick={saveTodo}
+              variant="contained"
+            >
               Save
             </Button>
-            <Button onClick={() => onDelete(item)} variant="contained">
+            <Button
+              style={{ width: "90px" }}
+              onClick={() => onDelete(item)}
+              variant="contained"
+            >
               Delete
             </Button>
           </div>
@@ -87,15 +96,27 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
             <p className={styles.item__description}>{item.description}</p>
           </div>
           <div className={styles.item__buttonContainer}>
-            <Button variant="contained" onClick={() => setIsActiveInput(true)}>
+            <Button
+              style={{ width: "90px" }}
+              variant="contained"
+              onClick={() => setIsActiveInput(true)}
+            >
               Change
             </Button>
-            <Button onClick={() => onDelete(item)} variant="contained">
+            <Button
+              style={{ width: "90px" }}
+              onClick={() => onDelete(item)}
+              variant="contained"
+            >
               Delete
+            </Button>
+            <Button style={{ width: "90px" }} variant="contained">
+              Subtask
             </Button>
           </div>
         </>
       )}
+      {/* <TodoListItem item={sub} onDelete={onDelete}/> */}
     </div>
   );
 };

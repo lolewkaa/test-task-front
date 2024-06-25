@@ -13,10 +13,8 @@ import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
 
 const TodoList = () => {
   const dispatch = useAppDispatch();
-  const todoTitle = useAppSelector((state) => state.todo.title);
-  const todoDescription = useAppSelector((state) => state.todo.description);
-  const todoSubTasks = useAppSelector((state) => state.todo.subTasks);
   const todos = useAppSelector((state) => state.todos.value);
+  const todo = useAppSelector((state) => state.todo)
 
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setTodoTitle(e.target.value));
@@ -27,15 +25,15 @@ const TodoList = () => {
   }
 
   function addTodo() {
-    if (todoTitle !== "" && todoDescription !== "") {
+    if (todo.title !== "" && todo.description !== "") {
       dispatch(
         addTodos([
           ...todos,
           {
             id: todos.length,
-            title: todoTitle,
-            description: todoDescription,
-            subTasks: todoSubTasks,
+            title: todo.title,
+            description: todo.description,
+            subTasks: todo.subTasks,
           },
         ])
       );
@@ -58,13 +56,13 @@ const TodoList = () => {
     <div className={styles.todoList}>
       <div className={styles.todoList__container}>
         <Input
-          value={todoTitle}
+          value={todo.title}
           onChange={handleChangeTitle}
           fullWidth
           placeholder="Title"
         ></Input>
         <Input
-          value={todoDescription}
+          value={todo.description}
           onChange={handleChangeDescription}
           fullWidth
           placeholder="Description"
