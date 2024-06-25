@@ -11,23 +11,23 @@ type todosState = {
 const initialState: todosState = {
   title: "",
   description: "",
-  isSubTask: false,
+  isSubTask: true,
   subTasks: [],
 };
 
 const todoSlice = createSlice({
-  name: "todo",
+  name: "subTodo",
   initialState,
   reducers: {
-    setTodoTitle: (state, action) => {
+    setSubTodoTitle: (state, action) => {
       state.title = action.payload;
     },
-    setTodoDescription: (state, action) => {
+    setSubTodoDescription: (state, action) => {
       state.description = action.payload;
     },
   },
 });
 
-export const { setTodoTitle, setTodoDescription } = todoSlice.actions;
+export const { setSubTodoTitle, setSubTodoDescription } = todoSlice.actions;
 
 export default todoSlice.reducer;

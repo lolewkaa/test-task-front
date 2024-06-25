@@ -11,6 +11,7 @@ const initialState: todosState = {
       id: 0,
       title: "Make toDo list",
       description: "I'm crying",
+      isSubTask: false,
       subTasks: [],
     },
   ],
@@ -26,9 +27,19 @@ const todosSlice = createSlice({
     deleteTodos: (state, action) => {
       state.value = action.payload;
     },
+    addSubTodos: (state, { payload }) => {
+      const parentId = payload.parentId;
+      const subtaskId = payload.subtaskId;
+
+      state.value.forEach((el) => {
+        if (el.id === parentId) {
+          el.subTasks?.push(subtaskId);
+        }
+      });
+    },
   },
 });
 
-export const { addTodos, deleteTodos } = todosSlice.actions;
+export const { addTodos, deleteTodos, addSubTodos } = todosSlice.actions;
 
 export default todosSlice.reducer;

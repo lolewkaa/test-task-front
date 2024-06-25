@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./TodoList.module.css";
-
 import TodoListItem from "../TodoListItem/TodoListItem.tsx";
 import { Button, Input } from "@mui/material";
 import {
@@ -11,9 +10,13 @@ import { addTodos, deleteTodos } from "../../../store/slices/todosSlice.ts";
 import ITodo from "../../../types/types.ts";
 import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
 
-const TodoList = () => {
+type propsTodoList = {
+  todos: Array<ITodo>
+}
+
+const TodoList: React.FC<propsTodoList> = ({ todos }) => {
   const dispatch = useAppDispatch();
-  const todos = useAppSelector((state) => state.todos.value);
+  // const todos = useAppSelector((state) => state.todos.value);
   const todo = useAppSelector((state) => state.todo)
 
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
@@ -34,10 +37,11 @@ const TodoList = () => {
             title: todo.title,
             description: todo.description,
             subTasks: todo.subTasks,
+            isSubTask: false,
           },
         ])
       );
-      console.log(todos);
+      console.log(todos)
       dispatch(setTodoTitle(""));
       dispatch(setTodoDescription(""));
     }

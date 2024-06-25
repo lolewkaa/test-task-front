@@ -2,8 +2,15 @@ import { FC, useState } from "react";
 import styles from "./TodoListItem.module.css";
 import ITodo from "../../../types/types.ts";
 import { Button, Input } from "@mui/material";
-import { addTodos } from "../../../store/slices/todosSlice.ts";
+import {
+  addSubTodos,
+  addTodos,
+} from "../../../store/slices/todosSlice.ts";
 import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
+import {
+  setSubTodoDescription,
+  setSubTodoTitle,
+} from "../../../store/slices/subTodoSlice.ts";
 
 type TodoItemListProps = {
   item: ITodo;
@@ -19,9 +26,9 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
   });
   const [isActiveInput, setIsActiveInput] = useState(false);
   const todos = useAppSelector((state) => state.todos.value);
+  const subTodo = useAppSelector((state) => state.subTodo);
 
   const dispatch = useAppDispatch();
-  console.log(item)
 
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setIsNewTodo({
@@ -40,6 +47,14 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
     });
   }
 
+  function handleChangeSubTitle(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setSubTodoTitle(e.target.value));
+  }
+
+  function handleChangeSubDescription(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setSubTodoDescription(e.target.value));
+  }
+
   function saveTodo() {
     const index = todos.findIndex((el: ITodo) => el.id === item.id);
     const newarr = todos.slice();
@@ -47,12 +62,46 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
       id: newTodo.id,
       title: newTodo.title,
       description: newTodo.description,
+      isSubTask: false,
       subTasks: newTodo.subTasks,
     });
     dispatch(addTodos(newarr));
     setIsActiveInput(false);
   }
 
+  function addSubTodo(parentId: number, subtask: ITodo) {
+    dispatch(
+      addTodos([
+        ...todos,
+        {
+          id: todos.length,
+          title: subtask.title,
+          description: subtask.description,
+          subTasks: [],
+          isSubTask: true,
+        },
+      ])
+    );
+    const subTaskObject = {
+      id: todos.length,
+      title: subTodo.title,
+      description: subTodo.description,
+      isSubTask: true,
+      subTasks: [],
+    };
+
+    dispatch(
+      addSubTodos({
+        parentId: parentId,
+        subtaskId: subTaskObject.id,
+      })
+    );
+
+    console.log(todos);
+    dispatch(setSubTodoTitle(""));
+    dispatch(setSubTodoDescription(""));
+    console.log(todos);
+  }
   return (
     <div className={styles.item}>
       {isActiveInput && (
@@ -110,13 +159,28 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
             >
               Delete
             </Button>
-            <Button style={{ width: "90px" }} variant="contained">
+            <Button
+              onClick={() => addSubTodo(item.id, subTodo)}
+              style={{ width: "90px" }}
+              variant="contained"
+            >
               Subtask
             </Button>
+            <Input
+              value={subTodo.title}
+              onChange={handleChangeSubTitle}
+              placeholder="Title"
+              fullWidth
+            />
+            <Input
+              value={subTodo.description}
+              onChange={handleChangeSubDescription}
+              placeholder="Description"
+              fullWidth
+            />
           </div>
         </>
       )}
-      {/* <TodoListItem item={sub} onDelete={onDelete}/> */}
     </div>
   );
 };
