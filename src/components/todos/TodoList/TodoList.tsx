@@ -17,7 +17,6 @@ type propsTodoList = {
 const TodoList: React.FC<propsTodoList> = ({ todos }) => {
   const dispatch = useAppDispatch();
   const todo = useAppSelector((state) => state.todo);
-
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setTodoTitle(e.target.value));
   }
@@ -37,6 +36,7 @@ const TodoList: React.FC<propsTodoList> = ({ todos }) => {
             description: todo.description,
             subTasks: todo.subTasks,
             isSubTask: false,
+            parentId: null,
           },
         ])
       );
@@ -47,17 +47,19 @@ const TodoList: React.FC<propsTodoList> = ({ todos }) => {
   }
 
   function deleteTodo(item: ITodo) {
-    const arrSubTasksObjects: Array<ITodo> = [];
-    item.subTasks?.forEach((el) => {
-      const res = todos.find(function (elem) {
-        const index = todos.indexOf(elem);
-        return el === index;
-      });
-      arrSubTasksObjects.push(res);
-    });
+    const arr = []
+    const subArr = todos.filter((elem: ITodo) => {
+          if (elem.parentId !== item.id) {
+            return true;
+          }
+          return false;
 
-    const newArr = todos.filter((elem: ITodo) => {
-      if (!arrSubTasksObjects.includes(elem) && elem !== item) {
+      });
+      arr.push(...subArr)
+    dispatch(deleteTodos(arr))
+        
+    const newArr = arr.filter((elem: ITodo) => {
+      if (elem !== item) {
         return true;
       }
       return false;

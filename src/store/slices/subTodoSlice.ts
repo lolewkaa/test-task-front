@@ -6,6 +6,7 @@ type todosState = {
   description: string;
   subTasks: Array<ITodo>;
   isSubTask: boolean;
+  parentId: number | null
 };
 
 const initialState: todosState = {
@@ -13,6 +14,7 @@ const initialState: todosState = {
   description: "",
   isSubTask: true,
   subTasks: [],
+  parentId: null
 };
 
 const todoSlice = createSlice({

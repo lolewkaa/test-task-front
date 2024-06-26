@@ -1,11 +1,8 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./TodoListItem.module.css";
 import ITodo from "../../../types/types.ts";
 import { Button, Input } from "@mui/material";
-import {
-  addSubTodos,
-  addTodos,
-} from "../../../store/slices/todosSlice.ts";
+import { addSubTodos, addTodos } from "../../../store/slices/todosSlice.ts";
 import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
 import {
   setSubTodoDescription,
@@ -25,11 +22,30 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
     subTasks: item.subTasks,
   });
   const [isActiveInput, setIsActiveInput] = useState(false);
+  const [isActiveSubtuskInput, setIsActiveSubtuskInput] = useState(false);
   const todos = useAppSelector((state) => state.todos.value);
   const subTodo = useAppSelector((state) => state.subTodo);
+  const [subData, setSubData] = useState([])
 
   const dispatch = useAppDispatch();
 
+  function getSabtasks() {
+    //массив элементов у которых parentId 
+  //должны получить массив с данными тех todo айдишники которых содержатся в item.subtasks
+  const arrSubTasksObjects: Array<ITodo> = [];
+  item.subTasks?.forEach((el) => {
+    const res = todos.find(function (elem) {
+      const index = todos.indexOf(elem);
+      return el === index;
+    });
+    arrSubTasksObjects.push(res);
+  });
+  
+  return arrSubTasksObjects
+  }
+  useEffect(() => {
+    setSubData(getSabtasks())
+  }, [todos])
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setIsNewTodo({
       id: item.id,
@@ -79,6 +95,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
           description: subtask.description,
           subTasks: [],
           isSubTask: true,
+          parentId: item.id,
         },
       ])
     );
@@ -96,11 +113,9 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
         subtaskId: subTaskObject.id,
       })
     );
-
-    console.log(todos);
     dispatch(setSubTodoTitle(""));
     dispatch(setSubTodoDescription(""));
-    console.log(todos);
+    setIsActiveSubtuskInput(false);
   }
   return (
     <div className={styles.item}>
@@ -138,7 +153,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
           </div>
         </>
       )}
-      {isActiveInput === false && (
+      {!isActiveInput && (
         <>
           <div className={styles.item__textContainer}>
             <p className={styles.item__title}>{item.title}</p>
@@ -159,25 +174,41 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
             >
               Delete
             </Button>
-            <Button
-              onClick={() => addSubTodo(item.id, subTodo)}
-              style={{ width: "90px" }}
-              variant="contained"
-            >
-              Subtask
-            </Button>
-            <Input
-              value={subTodo.title}
-              onChange={handleChangeSubTitle}
-              placeholder="Title"
-              fullWidth
-            />
-            <Input
-              value={subTodo.description}
-              onChange={handleChangeSubDescription}
-              placeholder="Description"
-              fullWidth
-            />
+            {!isActiveSubtuskInput && (
+              <Button
+                onClick={() => setIsActiveSubtuskInput(true)}
+                style={{ width: "90px" }}
+                variant="contained"
+              >
+                Subtask
+              </Button>
+            )}
+            {isActiveSubtuskInput && (
+              <>
+                <Button
+                  onClick={() => addSubTodo(item.id, subTodo)}
+                  style={{ width: "90px" }}
+                  variant="contained"
+                >
+                  Add subtask
+                </Button>
+                <Input
+                  value={subTodo.title}
+                  onChange={handleChangeSubTitle}
+                  placeholder="Title"
+                  fullWidth
+                />
+                <Input
+                  value={subTodo.description}
+                  onChange={handleChangeSubDescription}
+                  placeholder="Description"
+                  fullWidth
+                />
+              </>
+            )}
+            {/* {subData.length !== 0 && subData.map((item: ITodo, index: number) => (
+        <TodoListItem onDelete={onDelete} key={index} item={item} />
+      ))} */}
           </div>
         </>
       )}

@@ -13,6 +13,7 @@ const initialState: todosState = {
       description: "I'm crying",
       isSubTask: false,
       subTasks: [],
+      parentId: null,
     },
   ],
 };

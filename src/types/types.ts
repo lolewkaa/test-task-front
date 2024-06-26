@@ -3,5 +3,6 @@ export default interface ITodo {
     title:string,
     description:string,
     subTasks?: Array<number>,
-    isSubTask: boolean
+    isSubTask: boolean,
+    parentId?: number,
 }
