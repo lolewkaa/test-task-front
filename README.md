@@ -1,33 +1,21 @@
 # Test task for the Junior Frontend Developer position in Revamp IT
 
-REVIEWER TELEGRAM: @svintsoffyan
-
-## Specs
-
-**Project**: ToDo Manager
-
-**Language**: Typescript
-
-**Libraries**: React, Redux
-
-**UI**: Material / Chakra / Shadcn
-
-## TS
-
-### Required
+### Todo List
 - Client ToDo **CRUD**
 - Each ToDo has **title** and **description**
 - ToDos can have **infinite nesting**
 - At least one ToDo must be added by default
 
-### Bonus
-- Each ToDo can be viewed on a **separate page**
-- **Batch** ToDo removing
-- **Automatic selection** of child tasks if the parent element is selected
-- **Saving the state** when exiting the application (Redux persist)
+### Development
+- React
+- TypeScript
+- Redux toolkit
+- Material UI
 
-**IMPORTANT**: Some features that have already been made **may be incorrect** or you **may not like** them - you can **rewrite** them or **delete** them.
+После заполнения полей и нажатия на кнопку "Добавить", создается основная задача имеющая флаг isSubTask: false. Задача добавляется в массив todos, который фильтрует основные задачи от подзадач.  
+При клике по кнопке "Add subtask" открывается попап с полями для заполнения. После отправки создается подзадача. Все подзадачи будут иметь флаг isSubTask: true и id родительской задачи.  
+Подзадачи можно просмотреть при клике по кнопке 'Show dubtasks'.
 
-## Post-Dev
+## Gh-pages
 
-Deploy on GitHub pages or another hosting
+https://lolewkaa.github.io/test-task-front/
