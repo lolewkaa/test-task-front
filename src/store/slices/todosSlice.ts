@@ -23,10 +23,14 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodos: (state, action) => {
-      state.value = action.payload;
+      // state.value = action.payload;
+      state.value = [...state.value, action.payload]
     },
     deleteTodos: (state, action) => {
       state.value = action.payload;
+
+     
+      
     },
     addSubTodos: (state, { payload }) => {
       const objectParent = payload.objectParent

@@ -13,7 +13,7 @@ const MainPage = () => {
 // console.log(todos)
   return (
     <div className={classes.page}>
-      <TodoList todos={epicTodosArr}/>
+      <TodoList isSubTask={false} todos={epicTodosArr}/>
     </div>
   );
 };
