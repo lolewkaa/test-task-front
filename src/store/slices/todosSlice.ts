@@ -35,11 +35,11 @@ const todosSlice = createSlice({
       // objectParent.subTasks = [...objectParent.subTasks, newTask]
       // objectParent.subTasks?.push(newTask)
      
-      state.value.forEach((el) => {
-        if (el.id === objectParent.id) {
-          el.subTasks?.push(newTask);
-        }
-      });
+      // state.value.forEach((el) => {
+      //   if (el.id === objectParent.id) {
+      //     el.subTasks?.push(newTask);
+      //   }
+      // });
     },
   },
 });

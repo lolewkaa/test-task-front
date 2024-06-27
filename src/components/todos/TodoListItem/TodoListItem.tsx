@@ -34,18 +34,24 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
     //массив элементов у которых parentId
     //должны получить массив с данными тех todo айдишники которых содержатся в item.subtasks
     const arrSubTasksObjects: Array<ITodo> = [];
-    item.subTasks?.forEach((el) => {
-      const res = todos.find(function (elem) {
-        const index = todos.indexOf(elem);
-        return el === index;
-      });
-      arrSubTasksObjects.push(res);
-    });
+    // item.subTasks?.forEach((el) => {
+    //   const res = todos.find(function (elem) {
+    //     const index = todos.indexOf(elem);
+    //     return el === index;
+    //   });
+    //   arrSubTasksObjects.push(res);
+    // });
+    todos.forEach((el) => {
+      if (el.parentId === item.id) {
+        arrSubTasksObjects.push(el)
+      }
+    })
 
     return arrSubTasksObjects;
   }
   useEffect(() => {
     setSubData(getSabtasks());
+    console.log(subData)
   }, [todos]);
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setIsNewTodo({
@@ -100,7 +106,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
         },
       ])
     );
-    console.log(todos);
+    // console.log(todos);
     // dispatch(
     //   addSubTodos({
     //     newTask: {

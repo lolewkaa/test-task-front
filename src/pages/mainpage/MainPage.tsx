@@ -10,7 +10,7 @@ const MainPage = () => {
     return todos.filter((item) => item.isSubTask === false)
   }
   const epicTodosArr = getEpicTask()
-console.log(todos)
+// console.log(todos)
   return (
     <div className={classes.page}>
       <TodoList todos={epicTodosArr}/>
