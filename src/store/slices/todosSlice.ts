@@ -28,9 +28,10 @@ const todosSlice = createSlice({
     },
     deleteTodos: (state, action) => {
       state.value = action.payload;
-
-     
-      
+    },
+    saveNewTodo: (state, action) => {
+      state.value = action.payload;
+      console.log(state.value)
     },
     addSubTodos: (state, { payload }) => {
       const objectParent = payload.objectParent
@@ -48,6 +49,6 @@ const todosSlice = createSlice({
   },
 });
 
-export const { addTodos, deleteTodos, addSubTodos } = todosSlice.actions;
+export const { addTodos, deleteTodos, addSubTodos, saveNewTodo } = todosSlice.actions;
 
 export default todosSlice.reducer;

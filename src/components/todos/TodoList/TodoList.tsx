@@ -54,9 +54,10 @@ const TodoList: React.FC<propsTodoList> = ({ todos, isSubTask }) => {
     // const currentTodos = state.value
     // console.log(state.value)
     // console.log(currentTodos)
-    console.log(item)
+   
     const newArr = todosRedux.filter((el) => 
-      el.isSubTask ? item.id !== el.parentId || item.id !== el.id : item.id !== el.id 
+      // el.isSubTask ? item.id !== el.parentId || item.id !== el.id : item.id !== el.id 
+    item.id !== el.id 
     )
     dispatch(deleteTodos(newArr));
   }
