@@ -3,4 +3,5 @@
     display: flex;
     justify-content: center;
     font-family: 'Roboto';
+    overflow-y: scroll;
 }

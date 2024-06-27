@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ITodo from "../../types/types";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 type todosState = {
   value: Array<ITodo>;
@@ -13,7 +13,6 @@ const initialState: todosState = {
       title: "Make toDo list",
       description: "I'm crying",
       isSubTask: false,
-      subTasks: [],
     },
   ],
 };
@@ -23,32 +22,22 @@ const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodos: (state, action) => {
-      // state.value = action.payload;
-      state.value = [...state.value, action.payload]
+      state.value = [...state.value, action.payload];
     },
     deleteTodos: (state, action) => {
-      state.value = action.payload;
+      const newArr = state.value.filter((el) => action.payload !== el.id);
+      state.value = newArr;
     },
-    saveNewTodo: (state, action) => {
-      state.value = action.payload;
-      console.log(state.value)
-    },
-    addSubTodos: (state, { payload }) => {
-      const objectParent = payload.objectParent
-      const newTask = payload.newTask
-     
-      // objectParent.subTasks = [...objectParent.subTasks, newTask]
-      // objectParent.subTasks?.push(newTask)
-     
-      // state.value.forEach((el) => {
-      //   if (el.id === objectParent.id) {
-      //     el.subTasks?.push(newTask);
-      //   }
-      // });
+    saveNewTodo: (state, { payload }) => {
+      const newarr = payload.newarr;
+      const index = payload.index;
+      const newTask = payload.newTask;
+      newarr.splice(index, 1, newTask);
+      state.value = newarr;
     },
   },
 });
 
-export const { addTodos, deleteTodos, addSubTodos, saveNewTodo } = todosSlice.actions;
+export const { addTodos, deleteTodos, saveNewTodo } = todosSlice.actions;
 
 export default todosSlice.reducer;
