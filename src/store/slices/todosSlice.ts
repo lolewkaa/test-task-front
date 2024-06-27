@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import ITodo from "../../types/types";
+import { v4 as uuidv4 } from 'uuid';
 
 type todosState = {
   value: Array<ITodo>;
@@ -8,12 +9,11 @@ type todosState = {
 const initialState: todosState = {
   value: [
     {
-      id: 0,
+      id: uuidv4(),
       title: "Make toDo list",
       description: "I'm crying",
       isSubTask: false,
       subTasks: [],
-      parentId: null,
     },
   ],
 };
@@ -29,12 +29,15 @@ const todosSlice = createSlice({
       state.value = action.payload;
     },
     addSubTodos: (state, { payload }) => {
-      const parentId = payload.parentId;
-      const subtaskId = payload.subtaskId;
-
+      const objectParent = payload.objectParent
+      const newTask = payload.newTask
+     
+      // objectParent.subTasks = [...objectParent.subTasks, newTask]
+      // objectParent.subTasks?.push(newTask)
+     
       state.value.forEach((el) => {
-        if (el.id === parentId) {
-          el.subTasks?.push(subtaskId);
+        if (el.id === objectParent.id) {
+          el.subTasks?.push(newTask);
         }
       });
     },

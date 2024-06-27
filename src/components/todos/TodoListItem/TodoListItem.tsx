@@ -8,6 +8,7 @@ import {
   setSubTodoDescription,
   setSubTodoTitle,
 } from "../../../store/slices/subTodoSlice.ts";
+import { v4 as uuidv4 } from "uuid";
 
 type TodoItemListProps = {
   item: ITodo;
@@ -25,27 +26,27 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
   const [isActiveSubtuskInput, setIsActiveSubtuskInput] = useState(false);
   const todos = useAppSelector((state) => state.todos.value);
   const subTodo = useAppSelector((state) => state.subTodo);
-  const [subData, setSubData] = useState([])
+  const [subData, setSubData] = useState([]);
 
   const dispatch = useAppDispatch();
 
   function getSabtasks() {
-    //массив элементов у которых parentId 
-  //должны получить массив с данными тех todo айдишники которых содержатся в item.subtasks
-  const arrSubTasksObjects: Array<ITodo> = [];
-  item.subTasks?.forEach((el) => {
-    const res = todos.find(function (elem) {
-      const index = todos.indexOf(elem);
-      return el === index;
+    //массив элементов у которых parentId
+    //должны получить массив с данными тех todo айдишники которых содержатся в item.subtasks
+    const arrSubTasksObjects: Array<ITodo> = [];
+    item.subTasks?.forEach((el) => {
+      const res = todos.find(function (elem) {
+        const index = todos.indexOf(elem);
+        return el === index;
+      });
+      arrSubTasksObjects.push(res);
     });
-    arrSubTasksObjects.push(res);
-  });
-  
-  return arrSubTasksObjects
+
+    return arrSubTasksObjects;
   }
   useEffect(() => {
-    setSubData(getSabtasks())
-  }, [todos])
+    setSubData(getSabtasks());
+  }, [todos]);
   function handleChangeTitle(e: React.ChangeEvent<HTMLInputElement>) {
     setIsNewTodo({
       id: item.id,
@@ -90,7 +91,7 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
       addTodos([
         ...todos,
         {
-          id: todos.length,
+          id: uuidv4(),
           title: subtask.title,
           description: subtask.description,
           subTasks: [],
@@ -99,20 +100,20 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
         },
       ])
     );
-    const subTaskObject = {
-      id: todos.length,
-      title: subTodo.title,
-      description: subTodo.description,
-      isSubTask: true,
-      subTasks: [],
-    };
-
-    dispatch(
-      addSubTodos({
-        parentId: parentId,
-        subtaskId: subTaskObject.id,
-      })
-    );
+    console.log(todos);
+    // dispatch(
+    //   addSubTodos({
+    //     newTask: {
+    //       id: uuidv4(),
+    //       title: subtask.title,
+    //       description: subtask.description,
+    //       subTasks: [],
+    //       isSubTask: true,
+    //       parentId: item.id,
+    //     },
+    //     objectParent: item,
+    //   })
+    // );
     dispatch(setSubTodoTitle(""));
     dispatch(setSubTodoDescription(""));
     setIsActiveSubtuskInput(false);
@@ -206,9 +207,17 @@ const TodoListItem: FC<TodoItemListProps> = ({ item, onDelete }) => {
                 />
               </>
             )}
-            {/* {subData.length !== 0 && subData.map((item: ITodo, index: number) => (
-        <TodoListItem onDelete={onDelete} key={index} item={item} />
-      ))} */}
+            {subData.length !== 0 &&
+              subData.map((item: ITodo, index: number) => (
+                <TodoListItem onDelete={onDelete} key={index} item={item} />
+              ))}
+            {/* {item.subTasks?.length !== 0 && item.subTasks?.map((subtask) => (
+              <TodoListItem
+                key={subtask.id}
+                item={subtask}
+                onDelete={onDelete}
+              />
+            ))} */}
           </div>
         </>
       )}

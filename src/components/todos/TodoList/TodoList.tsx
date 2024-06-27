@@ -9,6 +9,7 @@ import {
 import { addTodos, deleteTodos } from "../../../store/slices/todosSlice.ts";
 import ITodo from "../../../types/types.ts";
 import { useAppSelector, useAppDispatch } from "../../../hooks/ReduxHooks.ts";
+import { v4 as uuidv4 } from 'uuid';
 
 type propsTodoList = {
   todos: Array<ITodo>;
@@ -26,12 +27,13 @@ const TodoList: React.FC<propsTodoList> = ({ todos }) => {
   }
 
   function addTodo() {
+    
     if (todo.title !== "" && todo.description !== "") {
       dispatch(
         addTodos([
           ...todos,
           {
-            id: todos.length,
+            id: uuidv4(),
             title: todo.title,
             description: todo.description,
             subTasks: todo.subTasks,
@@ -47,18 +49,18 @@ const TodoList: React.FC<propsTodoList> = ({ todos }) => {
   }
 
   function deleteTodo(item: ITodo) {
-    const arr = []
-    const subArr = todos.filter((elem: ITodo) => {
-          if (elem.parentId !== item.id) {
-            return true;
-          }
-          return false;
+    // const arr = []
+    // const subArr = todos.filter((elem: ITodo) => {
+    //       if (elem.parentId !== item.id) {
+    //         return true;
+    //       }
+    //       return false;
 
-      });
-      arr.push(...subArr)
-    dispatch(deleteTodos(arr))
+    //   });
+    //   arr.push(...subArr)
+    // dispatch(deleteTodos(arr))
         
-    const newArr = arr.filter((elem: ITodo) => {
+    const newArr = todos.filter((elem: ITodo) => {
       if (elem !== item) {
         return true;
       }
@@ -86,7 +88,7 @@ const TodoList: React.FC<propsTodoList> = ({ todos }) => {
         </Button>
       </div>
       {todos.map((item: ITodo, index: number) => (
-        <TodoListItem onDelete={deleteTodo} key={index} item={item} />
+        <TodoListItem onDelete={deleteTodo} key={item.id} item={item} />
       ))}
     </div>
   );
